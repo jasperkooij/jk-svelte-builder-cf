@@ -1,3 +1,14 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+@plugin "daisyui" {
+	themes:
+		light --default,
+		dark --prefersdark;
+}
+
+h1 {
+	@apply px-2 text-4xl tracking-tighter text-balance max-lg:font-medium max-sm:px-4 sm:text-5xl lg:text-6xl xl:text-8xl;
+}
+h2 {
+	@apply px-2 text-2xl tracking-tighter text-balance max-lg:font-medium max-sm:px-3 sm:text-xl lg:text-2xl xl:text-3xl;
+}
