@@ -2,8 +2,67 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"address": {
+					"@type": "PostalAddress",
+					"addressLocality": "Sun Prairie",
+					"addressRegion": "WI",
+					"postalCode": "53590",
+					"streetAddress": "3467 Swansee Ridge"
+				},
+				"email": "jasperkooij@gmail.com",
+				"image": "https://cdn.builder.io/api/v1/image/assets%2F06e23a278b8341c7a916ce880385fb89%2F7edac098d9ab4d7a916c474e8908cb21",
+				"jobTitle": "Director of Web Development",
+				"name": "Jasper Kooij",
+				"telephone": "+1.608.469.7003",
+				"worksFor": {
+					"@type": "Organization",
+					"name": "Blend Marketing"
+				},
+				"url": "https://jasperkooij.com",
+				"sameAs": [
+					"https://www.linkedin.com/in/jasperkooij/",
+					"https://bsky.app/profile/jasperkooij.com",
+					"https://twitter.com/jasperkooij",
+					"https://discordapp.com/users/jasperkooij",
+					"https://github.com/jasperkooij"
+				]
+			}
+		</script>
+
+		<!-- ✅ Zaraz Consent Logic for GDPR Compliance -->
+
+		<script>
+			function getCookie(name) {
+				const value = `; ${document.cookie}`;
+				return value?.split(`; ${name}=`)[1]?.split(';')[0];
+			}
+
+			function handleZarazConsentAPIReady() {
+				const consent_cookie = getCookie('cf_consent');
+				const isEUCountry = '{{system.device.location.isEUCountry}}' === '1';
+				if (!consent_cookie) {
+					if (isEUCountry) {
+						zaraz.consent.modal = true;
+					} else {
+						zaraz.consent.setAll(true);
+						zaraz.consent.sendQueuedEvents();
+					}
+				}
+			}
+
+			if (window.zaraz?.consent?.APIReady) {
+				handleZarazConsentAPIReady();
+			} else {
+				document.addEventListener('zarazConsentAPIReady', handleZarazConsentAPIReady);
+			}
+		</script>
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
