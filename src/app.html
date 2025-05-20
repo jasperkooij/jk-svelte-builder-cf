@@ -35,45 +35,6 @@
 			}
 		</script>
 
-		<!-- ✅ Zaraz Consent Logic for GDPR Compliance -->
-
-		<script>
-			function getCookie(name) {
-				const value = `; ${document.cookie}`;
-				return value.split(`; ${name}=`)[1]?.split(';')[0];
-			}
-
-			function handleZarazConsentAPIReady() {
-				const consent_cookie = getCookie('cf_consent');
-				const location = window?.zaraz?.location || {};
-
-				console.log('[Zaraz] Location data:', location);
-
-				const isEUCountry = location.isEUCountry;
-
-				if (!consent_cookie) {
-					if (isEUCountry === false) {
-						console.log('[Zaraz] Non-EU country. Auto-consent.');
-						zaraz.consent.setAll(true);
-						zaraz.consent.sendQueuedEvents();
-					} else if (isEUCountry === true) {
-						console.log('[Zaraz] EU detected. Showing consent modal.');
-						zaraz.consent.modal = true;
-					} else {
-						console.warn('[Zaraz] Unable to determine EU status. Defaulting to consent modal.');
-						zaraz.consent.modal = true;
-					}
-				}
-			}
-
-			if (window?.zaraz?.consent?.APIReady) {
-				handleZarazConsentAPIReady();
-			} else {
-				document.addEventListener('zarazConsentAPIReady', handleZarazConsentAPIReady);
-			}
-		</script>
-
-
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
