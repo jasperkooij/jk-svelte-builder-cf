@@ -38,8 +38,8 @@
 
 		<script>
 			function getCookie(name) {
-				const value = ; ${document.cookie};
-				return value?.split(; ${name}=)[1]?.split(';')[0];
+				const value = `; ${document.cookie}`;
+				return value?.split(`; ${name}=`)[1]?.split(';')[0];
 			}
 
 			function handleZarazConsentAPIReady() {
@@ -55,7 +55,7 @@
 				}
 			}
 
-			if (window.zaraz?.consent?.APIReady) {
+			if (zaraz.consent?.APIReady) {
 				handleZarazConsentAPIReady();
 			} else {
 				document.addEventListener('zarazConsentAPIReady', handleZarazConsentAPIReady);
