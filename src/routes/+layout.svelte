@@ -1,36 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		function handleZarazConsent() {
-			const zaraz = (window as any).zaraz;
-			const zarazData = (window as any).zarazData;
-
-			if (!zaraz || !zarazData || !zarazData.location) {
-				console.warn('[Zaraz] Location unavailable. Showing modal as fallback.');
-				zaraz.consent.modal = true;
-				return;
-			}
-
-			const isEU = zarazData.location.isEUCountry === '1';
-			if (isEU) {
-				console.log('[Zaraz] EU country detected. Showing modal.');
-				zaraz.consent.modal = true;
-			} else {
-				console.log('[Zaraz] Non-EU visitor. Auto-consenting.');
-				zaraz.consent.setAll(true);
-				zaraz.consent.sendQueuedEvents();
-			}
-		}
-
-		if ((window as any).zaraz?.consent?.APIReady) {
-			handleZarazConsent();
-		} else {
-			document.addEventListener('zarazConsentAPIReady', handleZarazConsent);
-		}
-	});
-
-
 	import '../app.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
