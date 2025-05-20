@@ -45,21 +45,24 @@
 
 			function handleZarazConsentAPIReady() {
 				const consent_cookie = getCookie('cf_consent');
+				const location = window?.zaraz?.location || {};
 
-				// ✅ Use optional chaining + default fallback
-				const isEUCountry = window?.zaraz?.location?.isEUCountry ?? true; // default to true if unknown
+				console.log('[Zaraz] Location data:', location);
+
+				const isEUCountry = location.isEUCountry;
 
 				if (!consent_cookie) {
-					if (isEUCountry) {
-						console.log('[Zaraz] EU detected. Showing consent modal.');
-						zaraz.consent.modal = true;
-					} else {
+					if (isEUCountry === false) {
 						console.log('[Zaraz] Non-EU country. Auto-consent.');
 						zaraz.consent.setAll(true);
 						zaraz.consent.sendQueuedEvents();
+					} else if (isEUCountry === true) {
+						console.log('[Zaraz] EU detected. Showing consent modal.');
+						zaraz.consent.modal = true;
+					} else {
+						console.warn('[Zaraz] Unable to determine EU status. Defaulting to consent modal.');
+						zaraz.consent.modal = true;
 					}
-				} else {
-					console.log('[Zaraz] Consent cookie found:', consent_cookie);
 				}
 			}
 
@@ -69,6 +72,7 @@
 				document.addEventListener('zarazConsentAPIReady', handleZarazConsentAPIReady);
 			}
 		</script>
+
 
 		%sveltekit.head%
 	</head>
