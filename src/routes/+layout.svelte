@@ -1,61 +1,35 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// Optional: You can extract this to a type declaration file for better reusability
-	type Zaraz = {
-		location?: {
-			isEUCountry?: boolean;
-		};
-		consent: {
-			modal?: boolean;
-			APIReady?: boolean;
-			setAll: (value: boolean) => void;
-			sendQueuedEvents: () => void;
-		};
-	};
-
-	declare global {
-		interface Window {
-			zaraz?: Zaraz;
-		}
-	}
-
 	onMount(() => {
-		const getCookie = (name: string): string | undefined => {
-			const value = `; ${document.cookie}`;
-			return value.split(`; ${name}=`)[1]?.split(';')[0];
-		};
+		const interval = setInterval(() => {
+			const zaraz = (window as any).zaraz;
+			const zarazData = (window as any).zarazData;
 
-		const waitForZarazLocation = (retries = 10): void => {
-			const consent_cookie = getCookie('cf_consent');
-			if (consent_cookie) return;
+			if (zaraz?.consent && zarazData?.location) {
+				clearInterval(interval);
 
-			const zaraz = window.zaraz;
-			if (!zaraz?.consent) return;
+				const isEUCountry = zarazData.location.isEUCountry === '1';
+				const consentCookie = getCookie('cf_consent');
 
-			if (zaraz.location && typeof zaraz.location.isEUCountry === 'boolean') {
-				if (zaraz.location.isEUCountry) {
-					console.log('[Zaraz] EU detected. Showing consent modal.');
-					zaraz.consent.modal = true;
-				} else {
-					console.log('[Zaraz] Non-EU. Auto-consenting.');
-					zaraz.consent.setAll(true);
-					zaraz.consent.sendQueuedEvents();
+				if (!consentCookie) {
+					if (isEUCountry) {
+						console.log('[Zaraz] EU detected. Showing consent modal.');
+						zaraz.consent.modal = true;
+					} else {
+						console.log('[Zaraz] Not EU. Auto-consenting.');
+						zaraz.consent.setAll(true);
+						zaraz.consent.sendQueuedEvents();
+					}
 				}
-			} else if (retries > 0) {
-				setTimeout(() => waitForZarazLocation(retries - 1), 200);
-			} else {
-				console.warn('[Zaraz] Location unavailable. Showing consent modal as fallback.');
-				zaraz.consent.modal = true;
 			}
-		};
-
-		if (window.zaraz?.consent?.APIReady) {
-			waitForZarazLocation();
-		} else {
-			document.addEventListener('zarazConsentAPIReady', () => waitForZarazLocation());
-		}
+		}, 300);
 	});
+
+	function getCookie(name: string): string | undefined {
+		const value = `; ${document.cookie}`;
+		return value.split(`; ${name}=`)[1]?.split(';')[0];
+	}
 
 	import '../app.css';
 	import Navbar from '$lib/components/Navbar.svelte';
