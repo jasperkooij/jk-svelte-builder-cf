@@ -2,46 +2,34 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		console.log('[Consent] onMount triggered');
-
-		const interval = setInterval(() => {
+		function handleZarazConsent() {
 			const zaraz = (window as any).zaraz;
 			const zarazData = (window as any).zarazData;
 
-			console.log('[Consent] Polling...', {
-				zarazExists: !!zaraz,
-				zarazDataExists: !!zarazData,
-				location: zarazData?.location
-			});
-
-			if (zaraz?.consent && zarazData?.location) {
-				clearInterval(interval);
-
-				const isEUCountry = zarazData.location.isEUCountry === '1';
-				const consentCookie = getCookie('cf_consent');
-
-				console.log('[Consent] EU check:', { isEUCountry, consentCookie });
-
-				if (!consentCookie) {
-					if (isEUCountry) {
-						console.log('[Consent] EU detected. Showing modal.');
-						zaraz.consent.modal = true;
-					} else {
-						console.log('[Consent] Non-EU. Auto-consenting.');
-						zaraz.consent.setAll(true);
-						zaraz.consent.sendQueuedEvents();
-					}
-				} else {
-					console.log('[Consent] Cookie already set. Skipping.');
-				}
+			if (!zaraz || !zarazData || !zarazData.location) {
+				console.warn('[Zaraz] Location unavailable. Showing modal as fallback.');
+				zaraz.consent.modal = true;
+				return;
 			}
-		}, 500); // slower polling for debug
+
+			const isEU = zarazData.location.isEUCountry === '1';
+			if (isEU) {
+				console.log('[Zaraz] EU country detected. Showing modal.');
+				zaraz.consent.modal = true;
+			} else {
+				console.log('[Zaraz] Non-EU visitor. Auto-consenting.');
+				zaraz.consent.setAll(true);
+				zaraz.consent.sendQueuedEvents();
+			}
+		}
+
+		if ((window as any).zaraz?.consent?.APIReady) {
+			handleZarazConsent();
+		} else {
+			document.addEventListener('zarazConsentAPIReady', handleZarazConsent);
+		}
 	});
 
-	function getCookie(name: string): string | undefined {
-		const value = `; ${document.cookie}`;
-		return value.split(`; ${name}=`)[1]?.split(';')[0];
-	}
 
 	import '../app.css';
 	import Navbar from '$lib/components/Navbar.svelte';
