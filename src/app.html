@@ -64,6 +64,9 @@
 			} else {
 				document.addEventListener('zarazConsentAPIReady', handleZarazConsentAPIReady);
 			}
+
+			console.log('[Zaraz] Detected EU Country:', isEUCountry);
+			console.log('[Zaraz] Consent Cookie:', consent_cookie);
 		</script>
 
 		%sveltekit.head%
