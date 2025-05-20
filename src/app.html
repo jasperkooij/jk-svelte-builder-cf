@@ -40,12 +40,15 @@
 		<script>
 			function getCookie(name) {
 				const value = `; ${document.cookie}`;
-				return value?.split(`; ${name}=`)[1]?.split(';')[0];
+				return value.split(`; ${name}=`)[1]?.split(';')[0];
 			}
 
 			function handleZarazConsentAPIReady() {
 				const consent_cookie = getCookie('cf_consent');
-				const isEUCountry = '{{system.device.location.isEUCountry}}' === '1';
+
+				// ✅ Get EU detection from Zaraz location object
+				const isEUCountry = window.zaraz?.location?.isEUCountry;
+
 				if (!consent_cookie) {
 					if (isEUCountry) {
 						zaraz.consent.modal = true;
