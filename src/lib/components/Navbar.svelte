@@ -33,7 +33,13 @@
 <nav class="navbar bg-base-100 z-50 shadow-md" aria-label="Main navigation">
 	<div class="flex-1">
 		<a href="/" class="flex items-center gap-2">
-			<img src="/logo.svg" alt="Jasper Kooij logo" class="h-8 w-8" />
+			<img
+				src="/logo.svg"
+				alt="Jasper Kooij logo"
+				class="h-8 w-8"
+				loading="eager"
+				fetchpriority="high"
+			/>
 			<span class="text-lg font-bold">Jasper Kooij</span>
 		</a>
 	</div>
