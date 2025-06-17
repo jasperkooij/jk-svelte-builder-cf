@@ -160,7 +160,7 @@
 			<Icon icon="ri:discord-fill" width="28" height="28" />
 		</a>
 		<a
-			href="https://github.com/jasperkooij"
+			href="https://www.linkedin.com/in/jasperkooij/"
 			aria-label="GitHub"
 			target="_blank"
 			rel="noopener"
