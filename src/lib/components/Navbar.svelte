@@ -47,8 +47,8 @@
 	<!-- DESKTOP NAV -->
 	<div class="hidden items-center gap-4 lg:flex">
 		<a href="/" class="btn btn-ghost">Home</a>
-		<a href="/about" class="btn btn-ghost">About</a>
-		<a href="/contact" class="btn btn-ghost">Contact</a>
+		<a href="/#about" class="btn btn-ghost">About</a>
+		<a href="/#contact" class="btn btn-ghost">Contact</a>
 
 		<!-- THEME TOGGLE -->
 		<label
@@ -137,8 +137,8 @@
 		</button>
 
 		<a href="/" class="btn btn-ghost text-2xl" on:click={closeMenu}>Home</a>
-		<a href="/about" class="btn btn-ghost text-2xl" on:click={closeMenu}>About</a>
-		<a href="/contact" class="btn btn-ghost text-2xl" on:click={closeMenu}>Contact</a>
+		<a href="/#about" class="btn btn-ghost text-2xl" on:click={closeMenu}>About</a>
+		<a href="/#contact" class="btn btn-ghost text-2xl" on:click={closeMenu}>Contact</a>
 
 		<!-- THEME TOGGLE -->
 		<label
