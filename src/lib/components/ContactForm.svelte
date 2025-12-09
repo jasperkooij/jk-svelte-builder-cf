@@ -57,7 +57,7 @@
 
 <!-- Form -->
 <form on:submit={handleSubmit} class="bg-base-200 mx-auto max-w-md rounded-lg p-6 shadow-md" id="contact">
-	<h2 class="mb-4 text-center font-bold">Get in touch</h2>
+	<h2 class="mb-4 text-center font-bold">Let's Talk</h2>
 
 	<!-- Name Field -->
 	<div class="form-control">
